@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiction Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #game-container {
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #story {
+            margin-bottom: 20px;
+        }
+        .choice {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .choice:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="story">Welcome to the adventure. You wake up in a forest. Do you go left or right?</div>
+        <div id="choices">
+            <a href="#" class="choice" onclick="makeChoice('left')">Go Left</a>
+            <a href="#" class="choice" onclick="makeChoice('right')">Go Right</a>
+        </div>
+        <button onclick="exportChoices()" style="margin-top: 20px;">Download Game Data</button>
+    </div>
+
+    <script>
+        const story = document.getElementById('story');
+        const choices = document.getElementById('choices');
+
+        // To track the choices made by the user
+        const gameData = {
+            username: prompt("Enter your username:") || "Player", 
+            startTime: new Date(),
+            endTime: null,
+            score: 0,
+            level: 1,
+            choicesLog: []
+        };
+
+        function makeChoice(direction) {
+            // Log the user's choice
+            gameData.choicesLog.push({ choice: direction, timestamp: new Date().toISOString() });
+            
+            // Adjust score and level based on choices
+            if (direction === 'left') {
+                gameData.score += 10;
+                story.textContent = "You encounter a mysterious old man. He offers you a choice: a map or a key. What do you take?";
+                choices.innerHTML = `
+                    <a href="#" class="choice" onclick="makeChoice('map')">Take the Map</a>
+                    <a href="#" class="choice" onclick="makeChoice('key')">Take the Key</a>
+                `;
+            } else if (direction === 'right') {
+                gameData.score += 5;
+                story.textContent = "You find a dark cave. Do you enter or go back?";
+                choices.innerHTML = `
+                    <a href="#" class="choice" onclick="makeChoice('enter')">Enter the Cave</a>
+                    <a href="#" class="choice" onclick="makeChoice('back')">Go Back</a>
+                `;
+            } else if (direction === 'map') {
+                gameData.score += 20;
+                gameData.level++;
+                story.textContent = "The map leads you to a hidden treasure chest. You win!";
+                choices.innerHTML = `<a href="#" class="choice" onclick="restartGame()">Restart</a>`;
+            } else if (direction === 'key') {
+                gameData.score += 25;
+                gameData.level++;
+                story.textContent = "The key opens a locked door to freedom. You escape the forest and win!";
+                choices.innerHTML = `<a href="#" class="choice" onclick="restartGame()">Restart</a>`;
+            } else if (direction === 'enter') {
+                gameData.score -= 10;
+                story.textContent = "Inside the cave, you find a sleeping dragon. It wakes up and you lose!";
+                choices.innerHTML = `<a href="#" class="choice" onclick="restartGame()">Restart</a>`;
+            } else if (direction === 'back') {
+                gameData.score += 0;
+                story.textContent = "You return to where you started. Do you go left or right?";
+                choices.innerHTML = `
+                    <a href="#" class="choice" onclick="makeChoice('left')">Go Left</a>
+                    <a href="#" class="choice" onclick="makeChoice('right')">Go Right</a>
+                `;
+            }
+        }
+
+        function restartGame() {
+            gameData.choicesLog.push({ event: "restart", timestamp: new Date().toISOString() });
+            story.textContent = "Welcome to the adventure. You wake up in a forest. Do you go left or right?";
+            choices.innerHTML = `
+                <a href="#" class="choice" onclick="makeChoice('left')">Go Left</a>
+                <a href="#" class="choice" onclick="makeChoice('right')">Go Right</a>
+            `;
+            gameData.level = 1;
+            gameData.score = 0;
+        }
+
+        function exportChoices() {
+            // Calculate time spent
+            gameData.endTime = new Date();
+            const timeSpent = Math.floor((gameData.endTime - gameData.startTime) / 60000); // Minutes
+
+            // Add time spent to the data
+            gameData.timeSpent = timeSpent;
+
+            // Convert the log to a JSON string
+            const data = JSON.stringify(gameData, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a temporary download link
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${gameData.username}-game-data.json`;
+            a.click();
+
+            // Clean up the object URL
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
