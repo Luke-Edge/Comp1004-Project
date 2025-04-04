@@ -128,35 +128,35 @@
                     <a href="#" class="choice" onclick="makeChoice('back2')">Go back</a>`;
             } 
             else if (direction === 'proceed' && gameData.collectedShield == true){
-                story.textContent = 'Your shield protected you from these traps, you continue to a room which has strange terrifying noises coming from it, do you enter or go back?'
+                story.textContent = 'Your shield protected you from these traps, you continue to a room which has strange terrifying noises coming from it, do you enter or go back?';
                 choices.innerHTML = `
                     <a href="#" class="choice" onclick="makeChoice('enter2')">Enter room</a>
                     <a href="#" class="choice" onclick="makeChoice('enter1')">Go back</a>`;
             }
             else if (direction === 'proceed' && gameData.collectedShield == false){
-                story.textContent = "You enter the trapped room, and with nothing to defend yourself, you get shot by arrows in the darkness and quickly perished."
+                story.textContent = "You enter the trapped room, and with nothing to defend yourself, you get shot by arrows in the darkness and quickly perished.";
                 choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
             }
             else if (direction === 'enter2' && gameData.collectedShield && gameData.collectedSword == true){
-                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, you use the shield and sword for protection and managed to kill them all."
+                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, you use the shield and sword for protection and managed to kill them all.";
                 choices.innerHTML = `<a href="#" class="choice" onclick="makeChoice('continue')">Continue</a>`;
             }
             else if(direction === 'enter2' && gameData.collectedShield == true){
-                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, unfortunately your shield wasn't enough to defeat them, they slowly broke you down and you were defeated."
+                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, unfortunately your shield wasn't enough to defeat them, they slowly broke you down and you were defeated.";
                 choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
             }
             else if(direction === 'enter2' && gameData.collectedSword == true){
-                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, only with a sword in hand you managed to kill a couple but it wasn't enough, they eventually grabbed your sword and you couldn't defend yourself."
+                story.textContent = "You encountered a gang of grunting goblins, who attacked you swiftly, only with a sword in hand you managed to kill a couple but it wasn't enough, they eventually grabbed your sword and you couldn't defend yourself.";
                 choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
             }
             else if (direction === 'continue'){
-                story.textContent = "This time you could feel an ominous tension which filled your thoughts, you could hear something stomping loudly in the next room, do you wish to follow it or explore more?"
+                story.textContent = "This time you could feel an ominous tension which filled your thoughts, you could hear something stomping loudly in the next room, do you wish to follow it or explore more?";
                 choices.innerHTML = `
                     <a href="#" class="choice" onclick="makeChoice('follow')">Follow noise</a>
                     <a href="#" class="choice" onclick="makeChoice('explore2')">Explore</a>`;
             }
             else if (direction === 'follow'){
-                story.textContent = "As you walked into the room a sleeping dragon awaited you, do you try to creep past try to kill it, or go back? If you try to kill it you will have to roll a 4 or above on a six sided dice to win."
+                story.textContent = "As you walked into the room a sleeping dragon awaited you, do you try to creep past try to kill it, or go back? If you try to kill it you will have to roll a 4 or above on a six sided dice to win.";
                 choices.innerHTML = `
                     <a href="#" class="choice" onclick="makeChoice('creep past')">Creep past</a>
                     <a href="#" class="choice" onclick="makeChoice('attempt kill')">Attempt to kill</a>
@@ -164,11 +164,11 @@
             }
             else if (direction === 'explore2'){
                 gameData.collectedBoots = true;
-                story.textContent = "You walk into a small room which seemed dangerous, but to your surprise, wasn't. In the corner you see a pair of soft looking boots, you put them on."
+                story.textContent = "You walk into a small room which seemed dangerous, but to your surprise, wasn't. In the corner you see a pair of soft looking boots, you put them on.";
                 choices.innerHTML = `<a href="#" class="choice" onclick="makeChoice('back3')">Go back</a>`;
             }
             else if (direction === 'back3'){
-                story.textContent = "You arrive back in the room with the ominous tension do you follow the noise, or explore?"
+                story.textContent = "You arrive back in the room with the ominous tension do you follow the noise, or explore?";
                 choices.innerHTML = `
                 <a href="#" class="choice" onclick="makeChoice('follow')">Follow noise</a>
                 <a href="#" class="choice" onclick="makeChoice('explore2')">Explore</a>`;
@@ -178,17 +178,17 @@
                 choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
             }
             else if (direction === 'creep past' && gameData.collectedBoots == true){
-                story.textContent = "You successfully manouvered around the dragon quietly using the boots and found a chest full of gold, which then led to your escape, good job hero!"
+                story.textContent = "You successfully manouvered around the dragon quietly using the boots and found a chest full of gold, which then led to your escape, good job " +gameData.username+ ".";
                 choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
             }
             else if (direction === 'attempt kill'){
                 let attack = getRandomInt(1,6);
                 if (attack >= 4){
-                    story.textContent =  +attack+ " Rolled, You successfully ran and leaped and your sword passed through the mighty dragons skull, congrats you are a hero!"
+                    story.textContent =  +attack+ " Rolled, You successfully ran and leaped and your sword passed through the mighty dragons skull, congrats " +gameData.username+ " you are a hero!";
                     choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
                 }
                 else if (attack < 4){
-                    story.textContent = +attack+ " Rolled, You attempted to kill the dragon, you stumbled in the process, waking the dragon and sealing your fate, goodbye hero."
+                    story.textContent = +attack+ " Rolled, You attempted to kill the dragon, you stumbled in the process, waking the dragon and sealing your fate, goodbye " +gameData.username+ ".";
                     choices.innerHTML = `<a href="#" class="choice" onclick="restartGame('restart')">Restart</a>`;
                 }
                 
